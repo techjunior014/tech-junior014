@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tech Junior v4.3 • Field Collection Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       TECH JUNIOR v4.3 - THEME, TYPOGRAPHY & DENSITY VARIABLES
+       ========================================================================== */
+    :root {
+      --bg-main: #0d1117;
+      --bg-card: #161b22;
+      --bg-card-inner: #0d1117;
+      --bg-card-hover: #1f242c;
+      --border-color: #30363d;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent-green: #2ea043;
+      --accent-green-hover: #3fb950;
+      --accent-red: #da3633;
+      --accent-blue: #1f6feb;
+      --accent-amber: #f59e0b;
+      --badge-pill: #21262d;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-size-base: 12px;
+      --card-radius: 10px;
+      --btn-radius: 6px;
+      --card-pad: 9px 11px;
+    }
+
+    /* Classic Tech Junior (Obsidian Navy #0d1117 / #161b22) */
+    [data-theme="classic"] {
+      --bg-main: #0d1117;
+      --bg-card: #161b22;
+      --bg-card-inner: #0d1117;
+      --bg-card-hover: #1f242c;
+      --border-color: #30363d;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent-green: #2ea043;
+      --accent-green-hover: #3fb950;
+      --accent-red: #da3633;
+      --accent-blue: #1f6feb;
+      --accent-amber: #f59e0b;
+      --badge-pill: #21262d;
+    }
+
+    /* Clean Light Mode */
+    [data-theme="light"] {
+      --bg-main: #f3f6f9;
+      --bg-card: #ffffff;
+      --bg-card-inner: #f8fafc;
+      --bg-card-hover: #f1f5f9;
+      --border-color: #d0d7de;
+      --text-main: #1f2328;
+      --text-muted: #59636e;
+      --accent-green: #1a7f37;
+      --accent-green-hover: #2da44e;
+      --accent-red: #cf222e;
+      --accent-blue: #0969da;
+      --accent-amber: #d97706;
+      --badge-pill: #eaeef2;
+    }
+
+    /* Midnight Slate */
+    [data-theme="midnight"] {
+      --bg-main: #070b14;
+      --bg-card: #111827;
+      --bg-card-inner: #090e1a;
+      --bg-card-hover: #1e293b;
+      --border-color: #1e3a5f;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --accent-green-hover: #34d399;
+      --accent-red: #ef4444;
+      --accent-blue: #3b82f6;
+      --accent-amber: #f59e0b;
+      --badge-pill: #1e293b;
+    }
+
+    /* Cyber Emerald */
+    [data-theme="emerald"] {
+      --bg-main: #05110e;
+      --bg-card: #0c1f1b;
+      --bg-card-inner: #071613;
+      --bg-card-hover: #132e28;
+      --border-color: #1b433a;
+      --text-main: #ecfdf5;
+      --text-muted: #86efac;
+      --accent-green: #10b981;
+      --accent-green-hover: #34d399;
+      --accent-red: #f43f5e;
+      --accent-blue: #06b6d4;
+      --accent-amber: #fbbf24;
+      --badge-pill: #13312a;
+    }
+
+    /* Warm Amber Dusk */
+    [data-theme="amber"] {
+      --bg-main: #14100c;
+      --bg-card: #1f1914;
+      --bg-card-inner: #16120e;
+      --bg-card-hover: #2b231c;
+      --border-color: #443627;
+      --text-main: #fef3c7;
+      --text-muted: #d6bc9c;
+      --accent-green: #22c55e;
+      --accent-green-hover: #4ade80;
+      --accent-red: #ef4444;
+      --accent-blue: #f59e0b;
+      --accent-amber: #fbbf24;
+      --badge-pill: #2d241b;
+    }
+
+    /* Font Styles */
+    [data-font="inter"] { --font-family: 'Inter', sans-serif; }
+    [data-font="system"] { --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    [data-font="mono"] { --font-family: 'JetBrains Mono', monospace; }
+    [data-font="serif"] { --font-family: 'Merriweather', Georgia, serif; }
+
+    /* Font Sizes */
+    [data-size="micro"] { --font-size-base: 11px; }
+    [data-size="compact"] { --font-size-base: 12px; }
+    [data-size="standard"] { --font-size-base: 13px; }
+    [data-size="large"] { --font-size-base: 15px; }
+
+    /* Card Density */
+    [data-density="ultra"] { --card-pad: 7px 9px; }
+    [data-density="standard"] { --card-pad: 10px 12px; }
+    [data-density="comfortable"] { --card-pad: 13px 15px; }
+
+    /* Button Corners */
+    [data-btn="rounded"] { --btn-radius: 6px; }
+    [data-btn="pill"] { --btn-radius: 20px; }
+    [data-btn="sharp"] { --btn-radius: 2px; }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: var(--font-size-base);
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .tj-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+    }
+
+    .tj-card-inner {
+      background-color: var(--bg-card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: calc(var(--card-radius) - 2px);
+    }
+
+    .tj-client-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: var(--card-pad);
+      transition: border-color 0.15s ease;
+    }
+
+    .tj-client-card:hover {
+      border-color: var(--accent-blue);
+    }
+
+    .tj-input {
+      background-color: var(--bg-card-inner);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: var(--btn-radius);
+    }
+
+    .tj-input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+
+    .tj-btn {
+      border-radius: var(--btn-radius);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+
+    .tj-btn:active {
+      transform: scale(0.97);
+    }
+
+    .tj-btn-green {
+      background-color: var(--accent-green);
+      color: #ffffff;
+    }
+
+    .tj-btn-green:hover {
+      background-color: var(--accent-green-hover);
+    }
+
+    .tj-btn-red {
+      background-color: var(--accent-red);
+      color: #ffffff;
+    }
+
+    .tj-btn-blue {
+      background-color: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    .tj-btn-pill {
+      background-color: var(--badge-pill);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .modal-pop {
+      animation: modalPop 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.97) translateY(5px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+  </style>
+</head>
+<body data-theme="classic" data-font="inter" data-size="compact" data-density="standard" data-btn="rounded" class="pb-16">
+
+  <!-- ========================================================================
+       STICKY TOP HEADER WITH CIRCULAR {TJ} LOGO & MAIN FILTER
+       ======================================================================== -->
+  <header class="sticky top-0 z-30 border-b" style="background-color: var(--bg-card); border-color: var(--border-color);">
+    <div class="max-w-xl mx-auto px-2.5 py-2 flex items-center justify-between gap-2">
+      <!-- Left: Hamburger + Circular {TJ} SVG Badge + Title -->
+      <div class="flex items-center gap-2 min-w-0">
+        <button onclick="toggleDrawer(true)" aria-label="Open Control Menu" class="tj-btn tj-btn-pill p-1.5 shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+        <!-- Custom Circular {TJ} Logo Emblem -->
+        <div class="w-8 h-8 rounded-full bg-black border flex items-center justify-center shrink-0 shadow-sm" style="border-color: var(--border-color);" title="Tech Junior">
+          <svg viewBox="0 0 64 64" class="w-7 h-7">
+            <circle cx="32" cy="32" r="29" fill="#05080f" stroke="#1f6feb" stroke-width="1.5" stroke-opacity="0.6"/>
+            <text x="8" y="40" fill="#2563eb" font-family="Georgia, serif" font-size="30" font-weight="bold">{</text>
+            <text x="19" y="40" fill="#ffffff" font-family="Georgia, serif" font-size="25" font-weight="bold">T</text>
+            <text x="34" y="41" fill="#1d4ed8" font-family="Georgia, serif" font-size="25" font-weight="bold">J</text>
+            <text x="45" y="40" fill="#2563eb" font-family="Georgia, serif" font-size="30" font-weight="bold">}</text>
+          </svg>
+        </div>
+
+        <div class="min-w-0 leading-tight">
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-sm tracking-tight whitespace-nowrap">Tech Junior</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-bold" style="background-color: rgba(31,111,235,0.18); color: #58a6ff; border: 1px solid rgba(31,111,235,0.4);">v4.3</span>
+          </div>
+          <div id="headerDateText" class="text-[10px] truncate" style="color: var(--text-muted);">Thu, Nov 12, 2026</div>
+        </div>
+      </div>
+
+      <!-- Right: All Main Dropdown + Add Client Button -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div class="relative">
+          <select id="mainSelector" onchange="onMainSelectChange(this.value)" class="tj-btn tj-btn-pill text-[11px] font-bold pl-2 pr-6 py-1.5 appearance-none max-w-[125px] truncate">
+            <option value="ALL">🌐 All Main</option>
+          </select>
+          <svg class="w-3 h-3 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+
+        <button onclick="openAddClientModal()" class="tj-btn tj-btn-blue text-[11px] font-bold px-2.5 py-1.5 shadow-xs">
+          <span>+</span> Add
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN WORKSPACE CONTAINER
+       ======================================================================== -->
+  <main class="max-w-xl mx-auto px-2.5 pt-2.5 space-y-2.5">
+
+    <!-- OVERVIEW SUMMARY CARD -->
+    <section class="tj-card p-2.5">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">Overview Summary</span>
+        <button onclick="togglePrivacyMode()" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px] font-semibold">
+          <span id="privacyIcon">👁️</span>
+          <span id="privacyText">Privacy</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 text-center">
+        <div class="tj-card-inner p-2">
+          <div class="text-[10px] font-semibold uppercase" style="color: var(--text-muted);">Active</div>
+          <div id="kpiActiveCount" class="text-base font-extrabold mt-0.5" style="color: #58a6ff;">0</div>
+        </div>
+        <div class="tj-card-inner p-2">
+          <div class="text-[10px] font-semibold uppercase" style="color: var(--text-muted);">Collected</div>
+          <div id="kpiCollectedToday" class="text-base font-extrabold mt-0.5" style="color: #3fb950;">₱0</div>
+        </div>
+        <div class="tj-card-inner p-2">
+          <div class="text-[10px] font-semibold uppercase" style="color: var(--text-muted);">Expected</div>
+          <div id="kpiExpectedToday" class="text-base font-extrabold mt-0.5">₱0</div>
+        </div>
+      </div>
+
+      <div class="mt-2.5">
+        <div class="flex items-center justify-between text-[10px] mb-1">
+          <span style="color: var(--text-muted);">Daily Target Progress</span>
+          <span id="kpiProgressPct" class="font-bold" style="color: #3fb950;">0%</span>
+        </div>
+        <div class="w-full h-1.5 rounded-full overflow-hidden" style="background-color: var(--bg-card-inner); border: 1px solid var(--border-color);">
+          <div id="kpiProgressBar" class="h-full transition-all duration-300" style="width: 0%; background-color: var(--accent-green);"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRIGHT AMBER HIGH RISK ACCOUNTS WARNING BANNER -->
+    <section id="highRiskBanner" class="hidden rounded-lg px-3 py-2 flex items-center justify-between gap-2" style="background-color: rgba(245, 158, 11, 0.14); border: 1px solid var(--accent-amber);">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="text-sm shrink-0">⚠️</span>
+        <div class="min-w-0">
+          <div class="text-xs font-bold" style="color: var(--accent-amber);">High Risk Accounts Detected</div>
+          <div id="highRiskBannerMsg" class="text-[11px] truncate" style="color: var(--text-main);">0 account(s) have 3+ consecutive absences!</div>
+        </div>
+      </div>
+      <button onclick="setFilterChip('highrisk')" class="tj-btn px-2.5 py-1 text-[11px] font-bold shrink-0" style="background-color: var(--accent-amber); color: #000;">
+        View
+      </button>
+    </section>
+
+    <!-- ACTIVE LOANS / FINISHED LOANS TABS -->
+    <section class="tj-card p-1 grid grid-cols-2 gap-1">
+      <button id="tabActive" onclick="switchTab('active')" class="tj-btn tj-btn-blue py-1.5 text-xs font-bold">
+        Active Loans (<span id="countActiveTab">0</span>)
+      </button>
+      <button id="tabFinished" onclick="switchTab('finished')" class="tj-btn py-1.5 text-xs font-semibold" style="color: var(--text-muted);">
+        Finished Loans (<span id="countFinishedTab">0</span>)
+      </button>
+    </section>
+
+    <!-- SEARCH BAR & SCROLLABLE FILTER CHIPS -->
+    <section class="space-y-2">
+      <div class="relative">
+        <svg class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 opacity-60" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"/>
+        </svg>
+        <input id="searchBox" type="text" oninput="renderClientCards()" placeholder="Search client name, item, or main..." class="tj-input w-full pl-8 pr-7 py-1.5 text-xs" />
+        <button id="clearSearchBtn" onclick="clearSearchBox()" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-xs opacity-60 hover:opacity-100">✕</button>
+      </div>
+
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+        <button data-chip="all" onclick="setFilterChip('all')" class="filter-chip tj-btn tj-btn-blue px-2.5 py-1 text-[11px] shrink-0">All</button>
+        <button data-chip="pending" onclick="setFilterChip('pending')" class="filter-chip tj-btn tj-btn-pill px-2.5 py-1 text-[11px] shrink-0">⏳ Pending</button>
+        <button data-chip="paid" onclick="setFilterChip('paid')" class="filter-chip tj-btn tj-btn-pill px-2.5 py-1 text-[11px] shrink-0">✅ Paid Today</button>
+        <button data-chip="absent" onclick="setFilterChip('absent')" class="filter-chip tj-btn tj-btn-pill px-2.5 py-1 text-[11px] shrink-0">❌ Absent Today</button>
+        <button data-chip="neardone" onclick="setFilterChip('neardone')" class="filter-chip tj-btn tj-btn-pill px-2.5 py-1 text-[11px] shrink-0">⚡ Near Done</button>
+        <button data-chip="highrisk" onclick="setFilterChip('highrisk')" class="filter-chip tj-btn tj-btn-pill px-2.5 py-1 text-[11px] shrink-0">⚠️ 3+ Absences</button>
+      </div>
+    </section>
+
+    <!-- CLIENT CARDS LIST -->
+    <section id="clientsContainer" class="space-y-2.5">
+      <!-- Populated dynamically -->
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       LEFT SLIDE-OUT CONTROL DRAWER (TECHJUNIOR CONTROL v4.3)
+       ======================================================================== -->
+  <div id="drawerBackdrop" onclick="toggleDrawer(false)" class="fixed inset-0 z-40 bg-black/75 hidden"></div>
+  <aside id="controlDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-72 max-w-[85vw] border-r flex flex-col transform -translate-x-full transition-transform duration-200" style="background-color: var(--bg-card); border-color: var(--border-color);">
+    <!-- Drawer Header with Circular {TJ} Logo -->
+    <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-full bg-black border flex items-center justify-center shrink-0" style="border-color: var(--border-color);">
+          <svg viewBox="0 0 64 64" class="w-8 h-8">
+            <circle cx="32" cy="32" r="29" fill="#05080f" stroke="#1f6feb" stroke-width="1.5" stroke-opacity="0.6"/>
+            <text x="8" y="40" fill="#2563eb" font-family="Georgia, serif" font-size="30" font-weight="bold">{</text>
+            <text x="19" y="40" fill="#ffffff" font-family="Georgia, serif" font-size="25" font-weight="bold">T</text>
+            <text x="34" y="41" fill="#1d4ed8" font-family="Georgia, serif" font-size="25" font-weight="bold">J</text>
+            <text x="45" y="40" fill="#2563eb" font-family="Georgia, serif" font-size="30" font-weight="bold">}</text>
+          </svg>
+        </div>
+        <div>
+          <div class="font-extrabold text-xs">TechJunior Control</div>
+          <div class="text-[10px]" style="color: var(--text-muted);">v4.3 • Field Collection Manager</div>
+        </div>
+      </div>
+      <button onclick="toggleDrawer(false)" class="p-1.5 rounded hover:bg-white/10 text-xs">✕</button>
+    </div>
+
+    <!-- Drawer Menu Body -->
+    <div class="flex-1 overflow-y-auto p-3 space-y-4">
+      <!-- APPEARANCE & SETTINGS -->
+      <div>
+        <div class="text-[10px] font-bold uppercase tracking-wider mb-1.5 px-1" style="color: var(--text-muted);">Customization</div>
+        <button onclick="openSettingsModal()" class="tj-btn tj-btn-blue w-full p-2.5 text-xs justify-between">
+          <span>⚙️ Settings (Themes, Fonts & Layout)</span>
+          <span>›</span>
+        </button>
+      </div>
+
+      <!-- REPORTS & LOGS -->
+      <div>
+        <div class="text-[10px] font-bold uppercase tracking-wider mb-1.5 px-1" style="color: var(--text-muted);">Reports & Logs</div>
+        <div class="space-y-1.5">
+          <button onclick="openPastCollectionsModal()" class="tj-btn tj-btn-pill w-full p-2 text-xs justify-between">
+            <span>📅 Past Collections Log</span>
+            <span>›</span>
+          </button>
+          <button onclick="openFinancialSummaryModal()" class="tj-btn tj-btn-pill w-full p-2 text-xs justify-between">
+            <span>📊 Financial & Main Summary</span>
+            <span>›</span>
+          </button>
+          <button onclick="shortcutHighRisk()" class="tj-btn tj-btn-pill w-full p-2 text-xs justify-between">
+            <span>⚠️ High Risk Accounts</span>
+            <span id="drawerRiskCount" class="px-1.5 py-0.5 rounded-full text-[10px] font-bold" style="background-color: rgba(218,54,51,0.2); color: #ff7b72;">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- MANAGE MAIN (COLLECTORS / AREAS) -->
+      <div>
+        <div class="text-[10px] font-bold uppercase tracking-wider mb-1.5 px-1" style="color: var(--text-muted);">Collector / Area Groups</div>
+        <button onclick="openManageMainModal()" class="tj-btn tj-btn-pill w-full p-2 text-xs justify-between">
+          <span>🧭 Manage Main (+ Add / Rename)</span>
+          <span>›</span>
+        </button>
+      </div>
+
+      <!-- DATA BACKUP & SYNC -->
+      <div>
+        <div class="text-[10px] font-bold uppercase tracking-wider mb-1.5 px-1" style="color: var(--text-muted);">Data Backup & Sync</div>
+        <div class="space-y-1.5">
+          <button onclick="exportJsonFile()" class="tj-btn w-full p-2 text-xs justify-start border" style="background-color: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.4); color: var(--accent-amber);">
+            <span>💾</span> Export JSON Database File
+          </button>
+          <button onclick="copyJsonBackupCode()" class="tj-btn w-full p-2 text-xs justify-start border" style="background-color: rgba(31,111,235,0.12); border-color: rgba(31,111,235,0.4); color: #58a6ff;">
+            <span>📋</span> Copy JSON Backup Code
+          </button>
+          <button onclick="openEmailBackupModal()" class="tj-btn w-full p-2 text-xs justify-start border" style="background-color: rgba(46,160,67,0.12); border-color: rgba(46,160,67,0.4); color: #3fb950;">
+            <span>📧</span> Send Backup Code & DB to Email
+          </button>
+          <button onclick="openPasteImportModal()" class="tj-btn tj-btn-pill w-full p-2 text-xs justify-start">
+            <span>📥</span> Paste & Import JSON
+          </button>
+          <label class="tj-btn tj-btn-pill w-full p-2 text-xs justify-start cursor-pointer">
+            <span>📂</span> Restore from JSON File
+            <input type="file" accept=".json,application/json" onchange="restoreFromJsonFile(event)" class="hidden" />
+          </label>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       MODAL 1: CLIENT DETAILS & ATTENDANCE LEDGER (STEP 1 OF STATEMENT FLOW)
+       ======================================================================== -->
+  <div id="clientDetailModal" class="fixed inset-0 z-40 bg-black/80 hidden flex items-center justify-center p-2.5">
+    <div class="tj-card w-full max-w-lg max-h-[92vh] flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <!-- Header -->
+      <div class="p-3 border-b flex items-start justify-between gap-2" style="border-color: var(--border-color);">
+        <div>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <h2 id="detailName" class="text-sm font-extrabold">Client Name</h2>
+            <span id="detailMainTag" class="px-1.5 py-0.5 rounded text-[10px] font-bold" style="background-color: rgba(245,158,11,0.16); color: var(--accent-amber);">📍 first morn</span>
+            <span id="detailTypeTag" class="px-1.5 py-0.5 rounded text-[10px] font-bold" style="background-color: rgba(31,111,235,0.16); color: #58a6ff;">Money</span>
+            <span id="detailStatusTag" class="px-1.5 py-0.5 rounded text-[10px] font-bold tj-btn-pill">Pending</span>
+          </div>
+          <p id="detailDatesLine" class="text-[11px] mt-1" style="color: var(--text-muted);">Start: -- • Due: -- (0 Days)</p>
+        </div>
+        <button onclick="closeModal('clientDetailModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+
+      <!-- Body -->
+      <div class="flex-1 overflow-y-auto p-3 space-y-2.5">
+        <!-- Financial Figures -->
+        <div class="tj-card-inner p-2.5 grid grid-cols-2 gap-2">
+          <div>
+            <div class="text-[10px]" style="color: var(--text-muted);">Item / Loan Details</div>
+            <div id="detailItem" class="text-xs font-bold mt-0.5">Cash Loan</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px]" style="color: var(--text-muted);">Total Loan Amount</div>
+            <div id="detailTotalLoan" class="text-xs font-extrabold mt-0.5">₱0</div>
+          </div>
+          <div>
+            <div class="text-[10px]" style="color: var(--text-muted);">Remaining Balance</div>
+            <div id="detailBalance" class="text-sm font-extrabold mt-0.5" style="color: var(--accent-amber);">₱0</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px]" style="color: var(--text-muted);">Daily Target</div>
+            <div id="detailDailyTarget" class="text-xs font-bold mt-0.5">₱0</div>
+          </div>
+        </div>
+
+        <!-- Absences & Reassign Main -->
+        <div class="tj-card-inner p-2.5 grid grid-cols-3 gap-2 items-center">
+          <div>
+            <div class="text-[10px]" style="color: var(--text-muted);">Total Absences</div>
+            <div id="detailTotalAbs" class="text-xs font-extrabold mt-0.5" style="color: #ff7b72;">0</div>
+          </div>
+          <div>
+            <div class="text-[10px]" style="color: var(--text-muted);">Consecutive</div>
+            <div id="detailConsecAbs" class="text-xs font-extrabold mt-0.5" style="color: var(--accent-amber);">0</div>
+          </div>
+          <div>
+            <label class="block text-[10px] mb-0.5" style="color: var(--text-muted);">Reassign Main</label>
+            <select id="detailReassignMain" onchange="reassignClientMain(this.value)" class="tj-input w-full px-1.5 py-1 text-[11px] font-semibold"></select>
+          </div>
+        </div>
+
+        <!-- Repayment Progress -->
+        <div>
+          <div class="flex justify-between text-[11px] mb-1">
+            <span style="color: var(--text-muted);">Repayment Progress</span>
+            <span id="detailProgPct" class="font-bold" style="color: #3fb950;">0%</span>
+          </div>
+          <div class="w-full h-1.5 rounded-full overflow-hidden" style="background-color: var(--bg-card-inner); border: 1px solid var(--border-color);">
+            <div id="detailProgBar" class="h-full" style="width: 0%; background-color: var(--accent-green);"></div>
+          </div>
+        </div>
+
+        <!-- Edit / Record Entry by Date -->
+        <div class="tj-card-inner p-2.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold" style="color: #58a6ff;">✏️ Edit / Record Entry by Date</span>
+            <span class="text-[10px]" style="color: var(--text-muted);">Correct past logs</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] mb-0.5" style="color: var(--text-muted);">Select Date</label>
+              <input id="entryDateInput" type="date" class="tj-input w-full px-2 py-1 text-xs" />
+            </div>
+            <div>
+              <label class="block text-[10px] mb-0.5" style="color: var(--text-muted);">Status</label>
+              <select id="entryStatusSelect" onchange="onEntryStatusChange()" class="tj-input w-full px-2 py-1 text-xs">
+                <option value="paid">Paid</option>
+                <option value="absent">Absent</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 items-end">
+            <div>
+              <label class="block text-[10px] mb-0.5" style="color: var(--text-muted);">Amount (₱)</label>
+              <input id="entryAmountInput" type="number" min="0" step="1" class="tj-input w-full px-2 py-1 text-xs font-bold" />
+            </div>
+            <button onclick="saveHistoryEntry()" class="tj-btn tj-btn-blue py-1.5 px-2.5 text-xs">
+              🔄 Save / Update Log
+            </button>
+          </div>
+        </div>
+
+        <!-- CLICKABLE COLLECTION HISTORY TABLE -> OPENS STEP 2 STATEMENT MODAL -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold">🕒 Attendance & Collection History</span>
+            <button onclick="openStatementModal()" class="text-[11px] font-bold hover:underline" style="color: #3fb950;">
+              📤 Tap Table to Send Statement ›
+            </button>
+          </div>
+
+          <div onclick="openStatementModal()" title="Click table to format and send statement to customer" class="tj-card-inner overflow-hidden cursor-pointer transition hover:border-emerald-500">
+            <div class="px-2.5 py-1.5 border-b flex items-center justify-between" style="border-color: var(--border-color); background-color: rgba(46,160,67,0.12);">
+              <span class="text-[10px] font-bold uppercase tracking-wider" style="color: #3fb950;">Day # | Date | Amount Given</span>
+              <span class="text-[10px] font-bold" style="color: #3fb950;">Send to Customer ›</span>
+            </div>
+            <div class="max-h-48 overflow-y-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b text-[10px] uppercase" style="border-color: var(--border-color); color: var(--text-muted);">
+                    <th class="py-1.5 px-2.5">Day #</th>
+                    <th class="py-1.5 px-2">Date</th>
+                    <th class="py-1.5 px-2">Amount Given</th>
+                    <th class="py-1.5 px-2.5 text-right">Del</th>
+                  </tr>
+                </thead>
+                <tbody id="detailHistoryBody" class="divide-y" style="border-color: var(--border-color);"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="p-2.5 border-t flex items-center justify-between gap-1.5" style="border-color: var(--border-color);">
+        <button onclick="deleteDetailClient()" class="tj-btn tj-btn-red px-2.5 py-1.5 text-xs">
+          🗑️ Delete
+        </button>
+        <div class="flex items-center gap-1.5">
+          <button onclick="renewFromDetail()" class="tj-btn tj-btn-green px-2.5 py-1.5 text-xs">
+            ⚡ Renew
+          </button>
+          <button onclick="editFromDetail()" class="tj-btn tj-btn-pill px-2.5 py-1.5 text-xs">
+            ✏️ Edit
+          </button>
+          <button onclick="closeModal('clientDetailModal')" class="tj-btn tj-btn-blue px-3 py-1.5 text-xs">
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: SEND COLLECTION STATEMENT TO CUSTOMER (STEP 2)
+       ======================================================================== -->
+  <div id="statementModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <div>
+          <h3 class="text-sm font-extrabold">📤 Send Collection Statement to Customer</h3>
+          <p class="text-[10px]" style="color: var(--text-muted);">Includes Start Date, Due Date, Days & Day # | Date | Amount Given</p>
+        </div>
+        <button onclick="closeModal('statementModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-3 space-y-2.5">
+        <div id="statementSummaryBox" class="tj-card-inner p-2.5 text-xs space-y-1"></div>
+
+        <div>
+          <div class="text-[10px] font-bold mb-1" style="color: #58a6ff;">Customer Receipt Preview</div>
+          <pre id="statementPreviewText" class="tj-input p-2.5 text-[11px] font-mono whitespace-pre-wrap leading-relaxed max-h-56 overflow-y-auto select-all"></pre>
+        </div>
+      </div>
+
+      <div class="p-3 border-t space-y-2" style="border-color: var(--border-color);">
+        <button onclick="shareStatementCustomer()" class="tj-btn tj-btn-green w-full py-2 text-xs font-extrabold">
+          💬 Share via SMS / WhatsApp / Messenger
+        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="copyStatementText()" class="tj-btn tj-btn-pill py-1.5 text-xs">
+            📋 Copy Statement
+          </button>
+          <button onclick="emailStatementText()" class="tj-btn tj-btn-blue py-1.5 text-xs">
+            📧 Send via Email
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 3: ADD / EDIT / RENEW CLIENT WITH EXACT AUTOMATIC DUE DATE
+       ======================================================================== -->
+  <div id="clientFormModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-md max-h-[92vh] flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <h3 id="formModalTitle" class="text-sm font-extrabold">+ Add New Client</h3>
+        <button onclick="closeModal('clientFormModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+
+      <form onsubmit="submitClientForm(event)" class="flex-1 overflow-y-auto p-3 space-y-2.5">
+        <input type="hidden" id="formActionMode" value="add" />
+        <input type="hidden" id="formTargetId" value="" />
+
+        <div>
+          <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Client Name *</label>
+          <input id="fName" type="text" required placeholder="e.g., Maria Santos" class="tj-input w-full px-2.5 py-1.5 text-xs font-semibold" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Main (Collector / Place)</label>
+            <select id="fMain" class="tj-input w-full px-2 py-1.5 text-xs font-semibold"></select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Loan Type</label>
+            <select id="fType" class="tj-input w-full px-2 py-1.5 text-xs font-semibold">
+              <option value="Money">Money</option>
+              <option value="Item">Item</option>
+              <option value="Both">Both</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Item / Loan Description</label>
+          <input id="fItem" type="text" placeholder="e.g., Cash Loan, Dinner set, Rice cooker" class="tj-input w-full px-2.5 py-1.5 text-xs" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Total Loan Amount (₱) *</label>
+            <input id="fTotalLoan" type="number" min="1" step="1" required placeholder="5000" oninput="autoSuggestDailyTarget()" class="tj-input w-full px-2.5 py-1.5 text-xs font-bold" style="color: var(--accent-amber);" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Daily Target (₱) *</label>
+            <input id="fDailyTarget" type="number" min="1" step="1" required placeholder="150" class="tj-input w-full px-2.5 py-1.5 text-xs font-bold" style="color: #3fb950;" />
+          </div>
+        </div>
+
+        <!-- START DATE + NUMBER OF DAYS + EXACT AUTOMATIC DUE DATE -->
+        <div class="tj-card-inner p-2.5 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold" style="color: #58a6ff;">📅 Start Date & Automatic Due Date</span>
+            <span class="text-[10px]" style="color: var(--text-muted);">Exact UTC Calendar</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Start Date *</label>
+              <input id="fStartDate" type="date" required onchange="recomputeDueDate()" class="tj-input w-full px-2 py-1.5 text-xs font-semibold" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Number of Days *</label>
+              <input id="fDays" type="number" min="1" max="365" required value="30" oninput="recomputeDueDate(); autoSuggestDailyTarget();" class="tj-input w-full px-2 py-1.5 text-xs font-bold" />
+            </div>
+          </div>
+
+          <!-- Quick Term Presets -->
+          <div class="flex items-center gap-1 flex-wrap">
+            <span class="text-[10px] mr-0.5" style="color: var(--text-muted);">Presets:</span>
+            <button type="button" onclick="applyDaysPreset(24)" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]">24d</button>
+            <button type="button" onclick="applyDaysPreset(30)" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]">30d</button>
+            <button type="button" onclick="applyDaysPreset(40)" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]">40d</button>
+            <button type="button" onclick="applyDaysPreset(44)" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]">44d</button>
+            <button type="button" onclick="applyDaysPreset(45)" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]">45d</button>
+            <button type="button" onclick="applyDaysPreset(60)" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]">60d</button>
+          </div>
+
+          <!-- Auto-Calculated Due Date Output -->
+          <div class="pt-1.5 border-t flex items-center justify-between" style="border-color: var(--border-color);">
+            <span class="text-xs font-semibold" style="color: var(--text-muted);">Automatic Due Date:</span>
+            <input id="fDueDate" type="date" readonly class="bg-transparent text-right text-xs font-extrabold outline-none" style="color: #3fb950;" />
+          </div>
+        </div>
+
+        <div class="pt-1 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('clientFormModal')" class="tj-btn tj-btn-pill px-3.5 py-1.5 text-xs">Cancel</button>
+          <button type="submit" id="formSubmitBtn" class="tj-btn tj-btn-green px-4 py-1.5 text-xs font-bold">Save Client</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 4: SETTINGS (THEMES, SAVE CLASSIC THEME, FONTS, SIZE, DENSITY)
+       ======================================================================== -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <div>
+          <h3 class="text-sm font-extrabold">⚙️ Settings (Themes, Fonts & Layout)</h3>
+          <p class="text-[10px]" style="color: var(--text-muted);">Customize colors, typography, card compactness & buttons</p>
+        </div>
+        <button onclick="closeModal('settingsModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-3 space-y-3.5">
+        <!-- Themes -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-[11px] font-bold" style="color: var(--text-muted);">Color Theme</label>
+            <button onclick="saveCurrentAsClassicTheme()" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]" style="color: var(--accent-amber);">
+              ⭐ Save Current as Classic Theme
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <button onclick="setUiPref('theme', 'classic')" data-pref-theme="classic" class="pref-theme tj-btn p-2 text-xs justify-start border" style="background-color: #0d1117; color: #f0f6fc; border-color: #30363d;">🌑 Classic Tech Junior</button>
+            <button onclick="setUiPref('theme', 'light')" data-pref-theme="light" class="pref-theme tj-btn p-2 text-xs justify-start border" style="background-color: #ffffff; color: #1f2328; border-color: #d0d7de;">☀️ Clean Light Mode</button>
+            <button onclick="setUiPref('theme', 'midnight')" data-pref-theme="midnight" class="pref-theme tj-btn p-2 text-xs justify-start border" style="background-color: #111827; color: #f8fafc; border-color: #1e3a5f;">🌌 Midnight Slate</button>
+            <button onclick="setUiPref('theme', 'emerald')" data-pref-theme="emerald" class="pref-theme tj-btn p-2 text-xs justify-start border" style="background-color: #0c1f1b; color: #ecfdf5; border-color: #1b433a;">🌲 Cyber Emerald</button>
+            <button onclick="setUiPref('theme', 'amber')" data-pref-theme="amber" class="pref-theme tj-btn p-2 text-xs justify-start border col-span-2" style="background-color: #1f1914; color: #fef3c7; border-color: #443627;">🔥 Warm Amber Dusk</button>
+          </div>
+        </div>
+
+        <!-- Font Style -->
+        <div>
+          <label class="block text-[11px] font-bold mb-1" style="color: var(--text-muted);">Font Style</label>
+          <select id="prefFontSelect" onchange="setUiPref('font', this.value)" class="tj-input w-full px-2.5 py-1.5 text-xs font-semibold">
+            <option value="inter">Inter (Default)</option>
+            <option value="system">System Sans</option>
+            <option value="mono">Monospace (Ledger Numbers)</option>
+            <option value="serif">Classic Serif</option>
+          </select>
+        </div>
+
+        <!-- Font Size -->
+        <div>
+          <label class="block text-[11px] font-bold mb-1" style="color: var(--text-muted);">Font Size</label>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="setUiPref('size', 'micro')" data-pref-size="micro" class="pref-size tj-btn tj-btn-pill py-1.5 text-[11px]">Micro (11px)</button>
+            <button onclick="setUiPref('size', 'compact')" data-pref-size="compact" class="pref-size tj-btn tj-btn-pill py-1.5 text-[11px]">Compact (12px)</button>
+            <button onclick="setUiPref('size', 'standard')" data-pref-size="standard" class="pref-size tj-btn tj-btn-pill py-1.5 text-[11px]">Standard (13px)</button>
+            <button onclick="setUiPref('size', 'large')" data-pref-size="large" class="pref-size tj-btn tj-btn-pill py-1.5 text-[11px]">Large (15px)</button>
+          </div>
+        </div>
+
+        <!-- Card Density -->
+        <div>
+          <label class="block text-[11px] font-bold mb-1" style="color: var(--text-muted);">Card Density</label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="setUiPref('density', 'ultra')" data-pref-density="ultra" class="pref-density tj-btn tj-btn-pill py-1.5 text-[11px]">Ultra-Compact</button>
+            <button onclick="setUiPref('density', 'standard')" data-pref-density="standard" class="pref-density tj-btn tj-btn-pill py-1.5 text-[11px]">Standard</button>
+            <button onclick="setUiPref('density', 'comfortable')" data-pref-density="comfortable" class="pref-density tj-btn tj-btn-pill py-1.5 text-[11px]">Comfortable</button>
+          </div>
+        </div>
+
+        <!-- Button Style -->
+        <div>
+          <label class="block text-[11px] font-bold mb-1" style="color: var(--text-muted);">Button Style</label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="setUiPref('btn', 'rounded')" data-pref-btn="rounded" class="pref-btn tj-btn tj-btn-pill py-1.5 text-[11px]">Rounded (6px)</button>
+            <button onclick="setUiPref('btn', 'pill')" data-pref-btn="pill" class="pref-btn tj-btn tj-btn-pill py-1.5 text-[11px]">Pill (20px)</button>
+            <button onclick="setUiPref('btn', 'sharp')" data-pref-btn="sharp" class="pref-btn tj-btn tj-btn-pill py-1.5 text-[11px]">Sharp (2px)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-3 border-t flex items-center justify-between" style="border-color: var(--border-color);">
+        <button onclick="restoreClassicPreset()" class="tj-btn tj-btn-pill px-3 py-1.5 text-xs" style="color: var(--accent-amber);">Restore Saved Classic</button>
+        <button onclick="closeModal('settingsModal')" class="tj-btn tj-btn-blue px-4 py-1.5 text-xs">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 5: SEND BACKUP CODE & DATABASE TO EMAIL
+       ======================================================================== -->
+  <div id="emailBackupModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-md flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <div>
+          <h3 class="text-sm font-extrabold">📧 Send Backup Code & DB to Email</h3>
+          <p class="text-[10px]" style="color: var(--text-muted);">Launch email client with backup JSON or download file to attach</p>
+        </div>
+        <button onclick="closeModal('emailBackupModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+      <div class="p-3 space-y-2.5">
+        <div>
+          <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Recipient Email (Optional)</label>
+          <input id="backupEmailRecipient" type="email" placeholder="yourname@gmail.com" class="tj-input w-full px-2.5 py-1.5 text-xs" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-semibold mb-1" style="color: var(--text-muted);">Backup JSON Code Preview</label>
+          <textarea id="emailBackupCodePreview" rows="6" readonly class="tj-input w-full p-2 text-[11px] font-mono select-all"></textarea>
+        </div>
+        <div class="grid grid-cols-1 gap-2">
+          <button onclick="launchEmailWithBackupCode()" class="tj-btn tj-btn-green py-2 text-xs font-bold">
+            ✉️ Open Email App with Full Backup Code
+          </button>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="exportJsonFile()" class="tj-btn tj-btn-blue py-1.5 text-xs">
+              💾 Download .JSON File
+            </button>
+            <button onclick="copyJsonBackupCode()" class="tj-btn tj-btn-pill py-1.5 text-xs">
+              📋 Copy JSON Code
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 6: PAST COLLECTIONS LOG
+       ======================================================================== -->
+  <div id="pastCollectionsModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-lg max-h-[88vh] flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <div>
+          <h3 class="text-sm font-extrabold">📅 Past Collections Log</h3>
+          <p class="text-[10px]" style="color: var(--text-muted);">Daily totals & client payment history</p>
+        </div>
+        <button onclick="closeModal('pastCollectionsModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+      <div id="pastCollectionsContent" class="flex-1 overflow-y-auto p-3 space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 7: FINANCIAL & MAIN SUMMARY
+       ======================================================================== -->
+  <div id="financialSummaryModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-lg max-h-[88vh] flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <div>
+          <h3 class="text-sm font-extrabold">📊 Financial & Main Summary</h3>
+          <p class="text-[10px]" style="color: var(--text-muted);">Capital deployed, collected, receivables & collector breakdown</p>
+        </div>
+        <button onclick="closeModal('financialSummaryModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+      <div id="financialSummaryContent" class="flex-1 overflow-y-auto p-3 space-y-2.5"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 8: MANAGE MAIN (+ ADD / RENAME)
+       ======================================================================== -->
+  <div id="manageMainModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <div>
+          <h3 class="text-sm font-extrabold">🧭 Manage Main (+ Add / Rename)</h3>
+          <p class="text-[10px]" style="color: var(--text-muted);">Organize collector names or client areas</p>
+        </div>
+        <button onclick="closeModal('manageMainModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+      <div class="p-3 space-y-2.5 overflow-y-auto">
+        <div class="flex gap-1.5">
+          <input id="newMainInput" type="text" placeholder="e.g., first morn, luna, darigayos..." class="tj-input flex-1 px-2.5 py-1.5 text-xs" />
+          <button onclick="addMainGroup()" class="tj-btn tj-btn-green px-3 py-1.5 text-xs">+ Add</button>
+        </div>
+        <div id="manageMainList" class="space-y-1.5"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 9: PASTE & IMPORT JSON
+       ======================================================================== -->
+  <div id="pasteImportModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-3">
+    <div class="tj-card w-full max-w-md flex flex-col overflow-hidden shadow-2xl modal-pop">
+      <div class="p-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+        <h3 class="text-sm font-extrabold">📥 Paste & Import JSON</h3>
+        <button onclick="closeModal('pasteImportModal')" class="tj-btn tj-btn-pill px-2 py-1 text-xs">✕</button>
+      </div>
+      <div class="p-3 space-y-2.5">
+        <p class="text-[11px]" style="color: var(--text-muted);">Supports both nested <code>{ "collectors": [...], "data": {...} }</code> and flat backups. Automatically cleans invisible mobile spaces.</p>
+        <textarea id="pasteImportTextarea" rows="7" placeholder="Paste your JSON backup code here..." class="tj-input w-full p-2 text-xs font-mono"></textarea>
+        <div class="flex justify-end gap-2">
+          <button onclick="closeModal('pasteImportModal')" class="tj-btn tj-btn-pill px-3 py-1.5 text-xs">Cancel</button>
+          <button onclick="executePasteImport()" class="tj-btn tj-btn-green px-4 py-1.5 text-xs">Import Backup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 10: CUSTOM CONFIRMATION DIALOG
+       ======================================================================== -->
+  <div id="confirmModal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-4">
+    <div class="tj-card w-full max-w-sm p-4 space-y-3 shadow-2xl modal-pop">
+      <h3 id="confirmTitle" class="text-sm font-extrabold">Confirm Action</h3>
+      <p id="confirmMsg" class="text-xs leading-relaxed" style="color: var(--text-muted);">Are you sure?</p>
+      <div class="flex justify-end gap-2">
+        <button onclick="closeModal('confirmModal')" class="tj-btn tj-btn-pill px-3 py-1.5 text-xs">Cancel</button>
+        <button id="confirmOkBtn" class="tj-btn tj-btn-red px-3.5 py-1.5 text-xs">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING TOAST NOTIFICATION -->
+  <div id="toastBox" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-3.5 py-2 rounded-full border text-xs font-bold shadow-xl hidden items-center gap-1.5" style="background-color: var(--bg-card); border-color: var(--accent-blue); color: var(--text-main);">
+    <span id="toastIcon">✅</span>
+    <span id="toastText">Saved</span>
+  </div>
+
+  <!-- ========================================================================
+       APPLICATION JAVASCRIPT
+       ======================================================================== -->
+  <script>
+    // ------------------------------------------------------------------------
+    // 1. STORAGE KEYS & STATE
+    // ------------------------------------------------------------------------
+    const DB_KEY = 'tech_junior_v4_3_db';
+    const UI_KEY = 'tech_junior_v4_3_ui';
+    const CLASSIC_PRESET_KEY = 'tech_junior_v4_3_classic_preset';
+
+    let uiPrefs = {
+      theme: 'classic',
+      font: 'inter',
+      size: 'compact',
+      density: 'standard',
+      btn: 'rounded'
+    };
+
+    let state = {
+      mains: ['first morn', 'Items Only', 'luna', 'darigayos'],
+      clients: [],
+      privacy: false,
+      activeTab: 'active',
+      selectedMain: 'ALL',
+      activeChip: 'all',
+      detailClientId: null
+    };
+
+    // ------------------------------------------------------------------------
+    // 2. EXACT UTC DATE CALCULATOR & CURRENCY HELPERS
+    // ------------------------------------------------------------------------
+    function getTodayISO() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    /**
+     * Exact UTC calendar addition: Start Date + Number of Days
+     * Example: 2026-10-12 + 40 days => 2026-11-21
+     */
+    function addDaysUTC(isoDate, days) {
+      if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return '';
+      const [y, m, d] = isoDate.split('-').map(Number);
+      const dt = new Date(Date.UTC(y, m - 1, d + Number(days || 0)));
+      return `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, '0')}-${String(dt.getUTCDate()).padStart(2, '0')}`;
+    }
+
+    function fmtPeso(val) {
+      if (state.privacy) return '••••';
+      return '₱' + (Number(val) || 0).toLocaleString('en-PH');
+    }
+
+    function fmtPesoExact(val) {
+      return '₱' + (Number(val) || 0).toLocaleString('en-PH');
+    }
+
+    // ------------------------------------------------------------------------
+    // 3. INITIALIZATION & DEFAULT SEED CLIENTS
+    // ------------------------------------------------------------------------
+    function init() {
+      loadUiPrefs();
+      loadDatabase();
+      updateHeaderClock();
+      renderAll();
+    }
+
+    function updateHeaderClock() {
+      const now = new Date();
+      document.getElementById('headerDateText').textContent = now.toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+
+    function loadUiPrefs() {
+      try {
+        const saved = localStorage.getItem(UI_KEY);
+        if (saved) uiPrefs = { ...uiPrefs, ...JSON.parse(saved) };
+      } catch (e) {}
+      applyUiPrefs();
+    }
+
+    function applyUiPrefs() {
+      document.body.setAttribute('data-theme', uiPrefs.theme);
+      document.body.setAttribute('data-font', uiPrefs.font);
+      document.body.setAttribute('data-size', uiPrefs.size);
+      document.body.setAttribute('data-density', uiPrefs.density);
+      document.body.setAttribute('data-btn', uiPrefs.btn);
+
+      const fSel = document.getElementById('prefFontSelect');
+      if (fSel) fSel.value = uiPrefs.font;
+
+      document.querySelectorAll('.pref-theme').forEach(b => {
+        b.style.outline = b.dataset.prefTheme === uiPrefs.theme ? '2px solid #58a6ff' : 'none';
+      });
+      document.querySelectorAll('.pref-size').forEach(b => {
+        const act = b.dataset.prefSize === uiPrefs.size;
+        b.style.borderColor = act ? '#58a6ff' : 'var(--border-color)';
+        b.style.color = act ? '#58a6ff' : 'var(--text-main)';
+      });
+      document.querySelectorAll('.pref-density').forEach(b => {
+        const act = b.dataset.prefDensity === uiPrefs.density;
+        b.style.borderColor = act ? '#58a6ff' : 'var(--border-color)';
+        b.style.color = act ? '#58a6ff' : 'var(--text-main)';
+      });
+      document.querySelectorAll('.pref-btn').forEach(b => {
+        const act = b.dataset.prefBtn === uiPrefs.btn;
+        b.style.borderColor = act ? '#58a6ff' : 'var(--border-color)';
+        b.style.color = act ? '#58a6ff' : 'var(--text-main)';
+      });
+    }
+
+    function setUiPref(key, val) {
+      uiPrefs[key] = val;
+      localStorage.setItem(UI_KEY, JSON.stringify(uiPrefs));
+      applyUiPrefs();
+      showToast(`Updated ${key}`);
+    }
+
+    function saveCurrentAsClassicTheme() {
+      localStorage.setItem(CLASSIC_PRESET_KEY, JSON.stringify(uiPrefs));
+      showToast('Saved current layout as Classic Theme!', '⭐');
+    }
+
+    function restoreClassicPreset() {
+      try {
+        const saved = localStorage.getItem(CLASSIC_PRESET_KEY);
+        if (saved) {
+          uiPrefs = JSON.parse(saved);
+        } else {
+          uiPrefs = { theme: 'classic', font: 'inter', size: 'compact', density: 'standard', btn: 'rounded' };
+        }
+        localStorage.setItem(UI_KEY, JSON.stringify(uiPrefs));
+        applyUiPrefs();
+        showToast('Restored Classic Theme!', '🌑');
+      } catch (e) {}
+    }
+
+    function loadDatabase() {
+      try {
+        const raw = localStorage.getItem(DB_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.clients)) {
+            state.mains = Array.isArray(parsed.mains) && parsed.mains.length ? parsed.mains : ['first morn', 'Items Only', 'luna', 'darigayos'];
+            state.clients = parsed.clients.map(c => normalizeClient(c, c.main || 'first morn'));
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // Seed default sample clients (Tiles Legleg, Precious, Juvy scrap, Vulcanizing, Janice, Roseann)
+      const today = getTodayISO();
+      state.mains = ['first morn', 'Items Only', 'luna', 'darigayos'];
+      state.clients = [
+        normalizeClient({
+          id: '1793498812450',
+          name: 'Tiles Legleg',
+          main: 'first morn',
+          loanType: 'Both',
+          item: 'Dinner set',
+          totalLoan: 8200,
+          dailyTarget: 200,
+          startDate: '2026-10-09',
+          termDays: 40,
+          initialPaidOffset: 3620,
+          history: [
+            { date: '2026-11-10', status: 'absent', amount: 0 },
+            { date: '2026-11-11', status: 'absent', amount: 0 },
+            { date: today, status: 'paid', amount: 70 }
+          ]
+        }, 'first morn'),
+        normalizeClient({
+          id: '1793499003360',
+          name: 'Precious',
+          main: 'first morn',
+          loanType: 'Money',
+          item: 'Cash Loan',
+          totalLoan: 4800,
+          dailyTarget: 160,
+          startDate: '2026-10-17',
+          termDays: 30,
+          initialPaidOffset: 3200,
+          history: [
+            { date: '2026-11-11', status: 'paid', amount: 160 },
+            { date: today, status: 'paid', amount: 160 }
+          ]
+        }, 'first morn'),
+        normalizeClient({
+          id: '1793594692836',
+          name: 'Juvy scrap',
+          main: 'first morn',
+          loanType: 'Money',
+          item: 'Cash Loan',
+          totalLoan: 2400,
+          dailyTarget: 60,
+          startDate: '2026-10-31',
+          termDays: 40,
+          initialPaidOffset: 180,
+          history: [
+            { date: '2026-11-10', status: 'paid', amount: 120 },
+            { date: '2026-11-11', status: 'absent', amount: 0 },
+            { date: today, status: 'absent', amount: 0 }
+          ]
+        }, 'first morn'),
+        normalizeClient({
+          id: '1793701534648',
+          name: 'Vulcanizing',
+          main: 'first morn',
+          loanType: 'Both',
+          item: 'Kawali',
+          totalLoan: 5450,
+          dailyTarget: 150,
+          startDate: '2026-11-03',
+          termDays: 30,
+          initialPaidOffset: 1250,
+          history: [
+            { date: '2026-11-11', status: 'paid', amount: 150 }
+          ]
+        }, 'first morn'),
+        normalizeClient({
+          id: '1793724054280',
+          name: 'Janice',
+          main: 'luna',
+          loanType: 'Money',
+          item: 'Cash Loan',
+          totalLoan: 3600,
+          dailyTarget: 100,
+          startDate: '2026-11-04',
+          termDays: 30,
+          initialPaidOffset: 1120,
+          history: [
+            { date: '2026-11-10', status: 'absent', amount: 0 },
+            { date: '2026-11-11', status: 'absent', amount: 0 },
+            { date: '2026-11-12', status: 'absent', amount: 0 }
+          ]
+        }, 'luna'),
+        normalizeClient({
+          id: '1793594751870',
+          name: 'Roseann',
+          main: 'Items Only',
+          loanType: 'Item',
+          item: 'Soen',
+          totalLoan: 1400,
+          dailyTarget: 30,
+          startDate: '2026-11-01',
+          termDays: 45,
+          initialPaidOffset: 130,
+          history: [
+            { date: '2026-11-10', status: 'paid', amount: 40 },
+            { date: '2026-11-11', status: 'absent', amount: 0 }
+          ]
+        }, 'Items Only')
+      ];
+      saveDatabase();
+    }
+
+    function normalizeClient(raw, fallbackMain) {
+      const start = (raw.startDate && /^\d{4}-\d{2}-\d{2}$/.test(raw.startDate)) ? raw.startDate : getTodayISO();
+      const days = Math.max(1, Number(raw.targetDays || raw.termDays) || 30);
+
+      let hist = [];
+      if (Array.isArray(raw.history)) {
+        hist = raw.history.map(h => ({
+          date: h.date,
+          status: String(h.status || 'paid').toLowerCase() === 'absent' ? 'absent' : 'paid',
+          amount: String(h.status || '').toLowerCase() === 'absent' ? 0 : (Number(h.amount) || 0)
+        }));
+      } else if (raw.history && typeof raw.history === 'object') {
+        hist = Object.entries(raw.history).map(([dt, obj]) => {
+          const isAbs = String(obj.status || '').toLowerCase() === 'absent';
+          return {
+            date: dt,
+            status: isAbs ? 'absent' : 'paid',
+            amount: isAbs ? 0 : (Number(obj.amount) || 0)
+          };
+        });
+      }
+      hist.sort((a, b) => a.date.localeCompare(b.date));
+
+      const totalLoan = Math.max(0, Number(raw.totalAmount !== undefined ? raw.totalAmount : raw.totalLoan) || 0);
+      const dailyTarget = Math.max(0, Number(raw.dailyAmount !== undefined ? raw.dailyAmount : raw.dailyTarget) || 0);
+      const mainName = String(raw.main || raw.route || raw.collector || fallbackMain || 'first morn');
+
+      const loggedPaid = hist.filter(h => h.status === 'paid').reduce((s, h) => s + h.amount, 0);
+      let offset = Number(raw.initialPaidOffset) || 0;
+      if (raw.status === 'finished' && (loggedPaid + offset) < totalLoan) {
+        offset = Math.max(0, totalLoan - loggedPaid);
+      }
+
+      return {
+        id: String(raw.id || ('c_' + Date.now() + Math.random().toString(36).slice(2, 6))),
+        name: String(raw.name || 'Unnamed'),
+        main: mainName,
+        loanType: ['Money', 'Item', 'Both'].includes(raw.type || raw.loanType) ? (raw.type || raw.loanType) : 'Money',
+        item: String(raw.itemDesc || raw.item || 'Cash Loan') || 'Cash Loan',
+        totalLoan,
+        dailyTarget: dailyTarget > 0 ? dailyTarget : Math.max(1, Math.ceil(totalLoan / days)),
+        startDate: start,
+        termDays: days,
+        dueDate: (raw.dueDate && /^\d{4}-\d{2}-\d{2}$/.test(raw.dueDate)) ? raw.dueDate : addDaysUTC(start, days),
+        history: hist,
+        initialPaidOffset: offset
+      };
+    }
+
+    function saveDatabase() {
+      try {
+        localStorage.setItem(DB_KEY, JSON.stringify({
+          mains: state.mains,
+          clients: state.clients
+        }));
+      } catch (e) {}
+    }
+
+    // ------------------------------------------------------------------------
+    // 4. CLIENT METRICS ENGINE
+    // ------------------------------------------------------------------------
+    function calcMetrics(client) {
+      const today = getTodayISO();
+      const sortedHistory = [...(client.history || [])].sort((a, b) => a.date.localeCompare(b.date));
+      const loggedPaid = sortedHistory.filter(h => h.status === 'paid').reduce((s, h) => s + (Number(h.amount) || 0), 0);
+      const totalPaid = (Number(client.initialPaidOffset) || 0) + loggedPaid;
+      const balance = Math.max(0, client.totalLoan - totalPaid);
+      const isFinished = balance <= 0;
+      const totalAbs = sortedHistory.filter(h => h.status === 'absent').length;
+
+      let consecAbs = 0;
+      for (let i = sortedHistory.length - 1; i >= 0; i--) {
+        if (sortedHistory[i].status === 'absent') consecAbs++;
+        else if (sortedHistory[i].status === 'paid') break;
+      }
+
+      const todayEntry = sortedHistory.find(h => h.date === today) || null;
+      const pct = client.totalLoan > 0 ? Math.min(100, Math.round((totalPaid / client.totalLoan) * 100)) : 100;
+
+      return { sortedHistory, totalPaid, balance, isFinished, totalAbs, consecAbs, todayEntry, pct };
+    }
+
+    // ------------------------------------------------------------------------
+    // 5. MAIN RENDER PIPELINE (v3.4.2 STYLE CARDS WITHOUT SEND ON FACE)
+    // ------------------------------------------------------------------------
+    function renderAll() {
+      renderMainDropdown();
+      renderOverviewKPIs();
+      renderClientCards();
+    }
+
+    function renderMainDropdown() {
+      const sel = document.getElementById('mainSelector');
+      const cur = state.selectedMain;
+      sel.innerHTML = `<option value="ALL">🌐 All Main</option>` +
+        state.mains.map(m => `<option value="${esc(m)}">📍 ${esc(m)}</option>`).join('');
+      sel.value = (cur === 'ALL' || state.mains.includes(cur)) ? cur : 'ALL';
+    }
+
+    function renderOverviewKPIs() {
+      let activeCount = 0;
+      let finishedCount = 0;
+      let collectedToday = 0;
+      let expectedToday = 0;
+      let riskCount = 0;
+
+      state.clients.forEach(c => {
+        const m = calcMetrics(c);
+        const matchMain = state.selectedMain === 'ALL' || c.main === state.selectedMain;
+
+        if (m.isFinished) finishedCount++;
+        else {
+          activeCount++;
+          if (m.consecAbs >= 3) riskCount++;
+        }
+
+        if (matchMain) {
+          if (!m.isFinished) expectedToday += c.dailyTarget;
+          if (m.todayEntry && m.todayEntry.status === 'paid') {
+            collectedToday += Number(m.todayEntry.amount) || 0;
+          }
+        }
+      });
+
+      document.getElementById('kpiActiveCount').textContent = activeCount;
+      document.getElementById('kpiCollectedToday').textContent = fmtPeso(collectedToday);
+      document.getElementById('kpiExpectedToday').textContent = fmtPeso(expectedToday);
+
+      const pct = expectedToday > 0 ? Math.min(100, Math.round((collectedToday / expectedToday) * 100)) : 0;
+      document.getElementById('kpiProgressPct').textContent = `${pct}%`;
+      document.getElementById('kpiProgressBar').style.width = `${pct}%`;
+
+      document.getElementById('countActiveTab').textContent = activeCount;
+      document.getElementById('countFinishedTab').textContent = finishedCount;
+      document.getElementById('drawerRiskCount').textContent = riskCount;
+
+      const banner = document.getElementById('highRiskBanner');
+      if (riskCount > 0) {
+        banner.classList.remove('hidden');
+        document.getElementById('highRiskBannerMsg').textContent = `${riskCount} account(s) have 3+ consecutive absences!`;
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+
+    function renderClientCards() {
+      const container = document.getElementById('clientsContainer');
+      const q = document.getElementById('searchBox').value.trim().toLowerCase();
+      document.getElementById('clearSearchBtn').classList.toggle('hidden', q.length === 0);
+
+      const list = state.clients.filter(c => {
+        const m = calcMetrics(c);
+        if (state.activeTab === 'active' && m.isFinished) return false;
+        if (state.activeTab === 'finished' && !m.isFinished) return false;
+        if (state.selectedMain !== 'ALL' && c.main !== state.selectedMain) return false;
+
+        if (q) {
+          const text = `${c.name} ${c.item} ${c.main} ${c.loanType}`.toLowerCase();
+          if (!text.includes(q)) return false;
+        }
+
+        switch (state.activeChip) {
+          case 'pending': return !m.todayEntry;
+          case 'paid': return m.todayEntry && m.todayEntry.status === 'paid';
+          case 'absent': return m.todayEntry && m.todayEntry.status === 'absent';
+          case 'neardone': return !m.isFinished && m.pct >= 75;
+          case 'highrisk': return !m.isFinished && m.consecAbs >= 3;
+          default: return true;
+        }
+      });
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="tj-card p-6 text-center space-y-1">
+            <div class="text-xl">📭</div>
+            <div class="text-xs font-bold">No clients found</div>
+            <div class="text-[11px]" style="color: var(--text-muted);">Adjust your filter chips or select All Main.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(c => buildClientCard(c)).join('');
+    }
+
+    /**
+     * Exact v3.4.2-style Client Card (without green Send button on card face)
+     */
+    function buildClientCard(c) {
+      const m = calcMetrics(c);
+
+      let statusBadge = `<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold tj-btn-pill" style="color: var(--text-muted);">⏳ Pending</span>`;
+      if (m.isFinished) {
+        statusBadge = `<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold" style="background-color: rgba(31,111,235,0.2); color: #58a6ff;">🎉 Finished</span>`;
+      } else if (m.todayEntry) {
+        if (m.todayEntry.status === 'paid') {
+          statusBadge = `<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold" style="background-color: rgba(46,160,67,0.2); color: #3fb950;">✅ Paid (${fmtPeso(m.todayEntry.amount)})</span>`;
+        } else {
+          statusBadge = `<span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold" style="background-color: rgba(218,54,51,0.2); color: #ff7b72;">❌ Absent Today</span>`;
+        }
+      }
+
+      const defaultAmt = m.balance > 0 ? Math.min(c.dailyTarget, m.balance) : c.dailyTarget;
+
+      return `
+        <article class="tj-client-card space-y-2">
+          <!-- Top Header Row: Name, Main pill, Loan Type pill, Today Status | Renew, Edit, Delete -->
+          <div class="flex items-start justify-between gap-2">
+            <div onclick="openClientDetail('${c.id}')" class="cursor-pointer min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <h3 class="text-sm font-extrabold hover:underline truncate">${esc(c.name)}</h3>
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold" style="background-color: rgba(245,158,11,0.16); color: var(--accent-amber);">📍 ${esc(c.main)}</span>
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold" style="background-color: rgba(31,111,235,0.16); color: #58a6ff;">${esc(c.loanType)}</span>
+              </div>
+              <div class="mt-1">${statusBadge}</div>
+            </div>
+
+            <!-- Action Icons (No Send button here; Send is inside Client Details -> Table!) -->
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="openRenewModal('${c.id}')" class="tj-btn tj-btn-green px-2 py-1 text-[11px] font-bold">
+                ⚡ Renew
+              </button>
+              <button onclick="openEditModal('${c.id}')" title="Edit Client" class="p-1 rounded hover:bg-white/10 text-xs" style="color: var(--text-muted);">
+                ✏️
+              </button>
+              <button onclick="promptDeleteClient('${c.id}')" title="Delete Client" class="p-1 rounded hover:bg-red-500/20 text-xs" style="color: #ff7b72;">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <!-- Inner Details Box -->
+          <div onclick="openClientDetail('${c.id}')" class="tj-card-inner p-2 grid grid-cols-2 gap-1.5 cursor-pointer text-[11px]">
+            <div class="space-y-0.5">
+              <div><span style="color: var(--text-muted);">Total Loan:</span> <strong>${fmtPeso(c.totalLoan)}</strong></div>
+              <div><span style="color: var(--text-muted);">Target:</span> <strong>${fmtPeso(c.dailyTarget)}</strong> <span style="color: var(--text-muted);">(${esc(c.item)})</span></div>
+              <div class="text-[10px]" style="color: var(--text-muted);">Start: ${c.startDate} • Due: ${c.dueDate}</div>
+            </div>
+            <div class="text-right space-y-0.5">
+              <div><span style="color: var(--text-muted);">Balance:</span> <strong class="text-xs" style="color: var(--accent-amber);">${fmtPeso(m.balance)}</strong></div>
+              <div><span style="color: var(--text-muted);">Absences:</span> <strong style="color: #ff7b72;">${m.totalAbs}</strong> <span style="color: var(--text-muted);">(${m.consecAbs} consec)</span></div>
+            </div>
+          </div>
+
+          <!-- Repayment Progress Bar -->
+          <div onclick="openClientDetail('${c.id}')" class="w-full h-1.5 rounded-full overflow-hidden cursor-pointer" style="background-color: var(--bg-card-inner); border: 1px solid var(--border-color);">
+            <div class="h-full transition-all duration-300" style="width: ${m.pct}%; background-color: var(--accent-green);"></div>
+          </div>
+
+          <!-- Bottom Quick-Action Bar -->
+          ${!m.isFinished ? `
+          <div class="flex items-center gap-1 pt-0.5">
+            <button type="button" onclick="bumpAmt('${c.id}', 50)" class="tj-btn tj-btn-pill px-2 py-1.5 text-[11px]">+50</button>
+            <button type="button" onclick="bumpAmt('${c.id}', 100)" class="tj-btn tj-btn-pill px-2 py-1.5 text-[11px]">+100</button>
+            <button type="button" onclick="setAmt('${c.id}', ${c.dailyTarget})" class="tj-btn px-2 py-1.5 text-[11px] font-bold" style="background-color: rgba(31,111,235,0.2); color: #58a6ff; border: 1px solid rgba(31,111,235,0.4);">
+              ${fmtPesoExact(c.dailyTarget)}
+            </button>
+            <input id="amtBox_${c.id}" type="number" min="1" value="${defaultAmt}" class="tj-input w-16 px-1.5 py-1.5 text-center text-xs font-extrabold" />
+            <button type="button" onclick="quickCollect('${c.id}')" class="tj-btn tj-btn-green flex-1 py-1.5 px-2 text-xs font-bold">
+              ✓ Collect
+            </button>
+            <button type="button" onclick="quickAbsent('${c.id}')" class="tj-btn tj-btn-red py-1.5 px-2.5 text-xs font-bold">
+              Absent
+            </button>
+          </div>
+          ` : `
+          <div class="flex justify-end">
+            <button onclick="openClientDetail('${c.id}')" class="text-[11px] font-bold hover:underline" style="color: #58a6ff;">
+              View Collection Statement ›
+            </button>
+          </div>
+          `}
+        </article>
+      `;
+    }
+
+    // ------------------------------------------------------------------------
+    // 6. QUICK COLLECT / ABSENT HANDLERS
+    // ------------------------------------------------------------------------
+    function bumpAmt(id, delta) {
+      const el = document.getElementById(`amtBox_${id}`);
+      if (el) el.value = (Number(el.value) || 0) + delta;
+    }
+
+    function setAmt(id, val) {
+      const el = document.getElementById(`amtBox_${id}`);
+      if (el) el.value = val;
+    }
+
+    function quickCollect(id) {
+      const client = state.clients.find(c => c.id === id);
+      if (!client) return;
+      const el = document.getElementById(`amtBox_${id}`);
+      const amt = Math.max(0, Number(el ? el.value : client.dailyTarget));
+      if (amt <= 0) {
+        showToast('Enter a valid amount', '⚠️');
+        return;
+      }
+      upsertHistory(client, getTodayISO(), 'paid', amt);
+      saveDatabase();
+      renderAll();
+      showToast(`Collected ${fmtPesoExact(amt)} from ${client.name}`, '✅');
+    }
+
+    function quickAbsent(id) {
+      const client = state.clients.find(c => c.id === id);
+      if (!client) return;
+      upsertHistory(client, getTodayISO(), 'absent', 0);
+      saveDatabase();
+      renderAll();
+      showToast(`Marked ${client.name} Absent Today`, '❌');
+    }
+
+    function upsertHistory(client, dateStr, status, amount) {
+      if (!Array.isArray(client.history)) client.history = [];
+      const idx = client.history.findIndex(h => h.date === dateStr);
+      const record = { date: dateStr, status, amount: status === 'paid' ? Number(amount) || 0 : 0 };
+      if (idx >= 0) client.history[idx] = record;
+      else client.history.push(record);
+      client.history.sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    // ------------------------------------------------------------------------
+    // 7. CLIENT DETAILS MODAL & TWO-STEP COLLECTION TABLE STATEMENT
+    // ------------------------------------------------------------------------
+    function openClientDetail(id) {
+      const client = state.clients.find(c => c.id === id);
+      if (!client) return;
+      state.detailClientId = id;
+      const m = calcMetrics(client);
+
+      document.getElementById('detailName').textContent = client.name;
+      document.getElementById('detailMainTag').textContent = `📍 ${client.main}`;
+      document.getElementById('detailTypeTag').textContent = client.loanType;
+      document.getElementById('detailDatesLine').textContent =
+        `Start: ${client.startDate} • Due: ${client.dueDate} (${client.termDays} Days)`;
+
+      const stEl = document.getElementById('detailStatusTag');
+      if (m.isFinished) stEl.textContent = 'Finished';
+      else if (m.todayEntry) stEl.textContent = m.todayEntry.status === 'paid' ? `Paid (${fmtPesoExact(m.todayEntry.amount)})` : 'Absent';
+      else stEl.textContent = 'Pending';
+
+      document.getElementById('detailItem').textContent = client.item;
+      document.getElementById('detailTotalLoan').textContent = fmtPesoExact(client.totalLoan);
+      document.getElementById('detailBalance').textContent = fmtPesoExact(m.balance);
+      document.getElementById('detailDailyTarget').textContent = fmtPesoExact(client.dailyTarget);
+
+      document.getElementById('detailTotalAbs').textContent = m.totalAbs;
+      document.getElementById('detailConsecAbs').textContent = m.consecAbs;
+
+      const mainSel = document.getElementById('detailReassignMain');
+      mainSel.innerHTML = state.mains
+        .map(mn => `<option value="${esc(mn)}" ${mn === client.main ? 'selected' : ''}>${esc(mn)}</option>`)
+        .join('');
+
+      document.getElementById('detailProgPct').textContent = `${m.pct}%`;
+      document.getElementById('detailProgBar').style.width = `${m.pct}%`;
+
+      document.getElementById('entryDateInput').value = getTodayISO();
+      document.getElementById('entryStatusSelect').value = 'paid';
+      document.getElementById('entryAmountInput').value = client.dailyTarget;
+      document.getElementById('entryAmountInput').disabled = false;
+
+      const tbody = document.getElementById('detailHistoryBody');
+      if (m.sortedHistory.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs" style="color: var(--text-muted);">No payments logged yet. Tap table to preview statement.</td></tr>`;
+      } else {
+        const rows = m.sortedHistory.map((h, i) => ({ dayNum: i + 1, ...h })).reverse();
+        tbody.innerHTML = rows.map(r => `
+          <tr class="hover:bg-white/5">
+            <td class="py-1.5 px-2.5 font-bold" style="color: #58a6ff;">Day ${r.dayNum}</td>
+            <td class="py-1.5 px-2 font-mono text-[11px]">${r.date}</td>
+            <td class="py-1.5 px-2 font-bold" style="color: ${r.status === 'paid' ? '#3fb950' : '#ff7b72'};">
+              ${r.status === 'paid' ? fmtPesoExact(r.amount) : 'Absent (₱0)'}
+            </td>
+            <td class="py-1.5 px-2.5 text-right" onclick="event.stopPropagation()">
+              <button onclick="removeHistoryRow('${client.id}', '${r.date}')" class="text-xs px-1 hover:opacity-80" style="color: #ff7b72;">🗑️</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      openModal('clientDetailModal');
+    }
+
+    function onEntryStatusChange() {
+      const st = document.getElementById('entryStatusSelect').value;
+      const inp = document.getElementById('entryAmountInput');
+      if (st === 'absent') {
+        inp.value = 0;
+        inp.disabled = true;
+      } else {
+        const c = state.clients.find(x => x.id === state.detailClientId);
+        inp.disabled = false;
+        inp.value = c ? c.dailyTarget : 100;
+      }
+    }
+
+    function saveHistoryEntry() {
+      const c = state.clients.find(x => x.id === state.detailClientId);
+      if (!c) return;
+      const dt = document.getElementById('entryDateInput').value;
+      const st = document.getElementById('entryStatusSelect').value;
+      const amt = Number(document.getElementById('entryAmountInput').value) || 0;
+      if (!dt) return;
+      upsertHistory(c, dt, st, amt);
+      saveDatabase();
+      renderAll();
+      openClientDetail(c.id);
+      showToast(`Saved entry for ${dt}`, '✅');
+    }
+
+    function removeHistoryRow(clientId, dateStr) {
+      const c = state.clients.find(x => x.id === clientId);
+      if (!c) return;
+      c.history = (c.history || []).filter(h => h.date !== dateStr);
+      saveDatabase();
+      renderAll();
+      openClientDetail(clientId);
+      showToast(`Deleted entry ${dateStr}`, '🗑️');
+    }
+
+    function reassignClientMain(newMain) {
+      const c = state.clients.find(x => x.id === state.detailClientId);
+      if (!c) return;
+      c.main = newMain;
+      saveDatabase();
+      renderAll();
+      document.getElementById('detailMainTag').textContent = `📍 ${newMain}`;
+      showToast(`Assigned to ${newMain}`, '📍');
+    }
+
+    // Step 2: Open Collection Statement Modal when table is clicked
+    function openStatementModal() {
+      const c = state.clients.find(x => x.id === state.detailClientId);
+      if (!c) return;
+      const m = calcMetrics(c);
+
+      document.getElementById('statementSummaryBox').innerHTML = `
+        <div class="flex justify-between"><span style="color: var(--text-muted);">Client Name:</span> <strong>${esc(c.name)}</strong></div>
+        <div class="flex justify-between"><span style="color: var(--text-muted);">Start Date:</span> <strong style="color: #58a6ff;">${c.startDate}</strong></div>
+        <div class="flex justify-between"><span style="color: var(--text-muted);">Due Date:</span> <strong style="color: var(--accent-amber);">${c.dueDate}</strong></div>
+        <div class="flex justify-between"><span style="color: var(--text-muted);">Number of Days:</span> <strong>${c.termDays} Days</strong></div>
+        <div class="flex justify-between"><span style="color: var(--text-muted);">Total Loan / Paid:</span> <strong>${fmtPesoExact(c.totalLoan)} / ${fmtPesoExact(m.totalPaid)}</strong></div>
+        <div class="flex justify-between pt-1 border-t" style="border-color: var(--border-color);">
+          <span style="color: var(--text-muted);">Remaining Balance:</span>
+          <strong style="color: #3fb950;">${fmtPesoExact(m.balance)}</strong>
+        </div>
+      `;
+
+      const lines = [
+        `TECH JUNIOR COLLECTION STATEMENT`,
+        `================================`,
+        `Client Name   : ${c.name}`,
+        `Main / Area   : ${c.main}`,
+        `Item / Loan   : ${c.item} (${c.loanType})`,
+        `Start Date    : ${c.startDate}`,
+        `Due Date      : ${c.dueDate}`,
+        `Number of Days: ${c.termDays} Days`,
+        `Total Loan    : ${fmtPesoExact(c.totalLoan)}`,
+        `Total Paid    : ${fmtPesoExact(m.totalPaid)}`,
+        `Balance Left  : ${fmtPesoExact(m.balance)}`,
+        `--------------------------------`,
+        `Day #   | Date       | Amount Given`,
+        `--------------------------------`
+      ];
+
+      if (m.sortedHistory.length === 0) {
+        lines.push(`No collection entries recorded yet.`);
+      } else {
+        m.sortedHistory.forEach((h, idx) => {
+          const dCol = `Day ${idx + 1}`.padEnd(7, ' ');
+          const dtCol = h.date.padEnd(10, ' ');
+          const amtCol = h.status === 'paid' ? fmtPesoExact(h.amount) : `Absent (₱0)`;
+          lines.push(`${dCol} | ${dtCol} | ${amtCol}`);
+        });
+      }
+
+      lines.push(`--------------------------------`);
+      lines.push(`Thank you!`);
+
+      document.getElementById('statementPreviewText').textContent = lines.join('\n');
+      openModal('statementModal');
+    }
+
+    async function shareStatementCustomer() {
+      const text = document.getElementById('statementPreviewText').textContent;
+      const c = state.clients.find(x => x.id === state.detailClientId);
+      copyToClipboard(text);
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: `Statement - ${c ? c.name : 'Client'}`, text });
+          showToast('Statement shared!', '📤');
+          return;
+        } catch (e) {}
+      }
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+      showToast('Copied & opened messaging!', '💬');
+    }
+
+    function copyStatementText() {
+      copyToClipboard(document.getElementById('statementPreviewText').textContent);
+      showToast('Statement copied to clipboard!', '📋');
+    }
+
+    function emailStatementText() {
+      const text = document.getElementById('statementPreviewText').textContent;
+      const c = state.clients.find(x => x.id === state.detailClientId);
+      const subj = encodeURIComponent(`Collection Statement - ${c ? c.name : 'Customer'}`);
+      window.location.href = `mailto:?subject=${subj}&body=${encodeURIComponent(text)}`;
+      showToast('Opening email client...', '📧');
+    }
+
+    // ------------------------------------------------------------------------
+    // 8. ADD / EDIT / RENEW CLIENT MODAL + AUTOMATIC DUE DATE
+    // ------------------------------------------------------------------------
+    function fillFormMainSelect(selected) {
+      document.getElementById('fMain').innerHTML = state.mains
+        .map(m => `<option value="${esc(m)}" ${m === selected ? 'selected' : ''}>${esc(m)}</option>`)
+        .join('');
+    }
+
+    function recomputeDueDate() {
+      const start = document.getElementById('fStartDate').value;
+      const days = Number(document.getElementById('fDays').value) || 0;
+      if (start && days > 0) {
+        document.getElementById('fDueDate').value = addDaysUTC(start, days);
+      }
+    }
+
+    function applyDaysPreset(days) {
+      document.getElementById('fDays').value = days;
+      recomputeDueDate();
+      autoSuggestDailyTarget();
+    }
+
+    function autoSuggestDailyTarget() {
+      if (document.getElementById('formActionMode').value === 'edit') return;
+      const tot = Number(document.getElementById('fTotalLoan').value) || 0;
+      const days = Number(document.getElementById('fDays').value) || 0;
+      if (tot > 0 && days > 0) {
+        document.getElementById('fDailyTarget').value = Math.ceil(tot / days);
+      }
+    }
+
+    function openAddClientModal() {
+      document.getElementById('formActionMode').value = 'add';
+      document.getElementById('formTargetId').value = '';
+      document.getElementById('formModalTitle').textContent = '+ Add New Client';
+      document.getElementById('formSubmitBtn').textContent = 'Save Client';
+
+      document.getElementById('fName').value = '';
+      fillFormMainSelect(state.selectedMain !== 'ALL' ? state.selectedMain : state.mains[0]);
+      document.getElementById('fType').value = 'Money';
+      document.getElementById('fItem').value = 'Cash Loan';
+      document.getElementById('fTotalLoan').value = '';
+      document.getElementById('fDailyTarget').value = '';
+      document.getElementById('fStartDate').value = getTodayISO();
+      document.getElementById('fDays').value = 30;
+      recomputeDueDate();
+      openModal('clientFormModal');
+    }
+
+    function openEditModal(id) {
+      const c = state.clients.find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('formActionMode').value = 'edit';
+      document.getElementById('formTargetId').value = c.id;
+      document.getElementById('formModalTitle').textContent = `✏️ Edit: ${c.name}`;
+      document.getElementById('formSubmitBtn').textContent = 'Update Client';
+
+      document.getElementById('fName').value = c.name;
+      fillFormMainSelect(c.main);
+      document.getElementById('fType').value = c.loanType;
+      document.getElementById('fItem').value = c.item;
+      document.getElementById('fTotalLoan').value = c.totalLoan;
+      document.getElementById('fDailyTarget').value = c.dailyTarget;
+      document.getElementById('fStartDate').value = c.startDate;
+      document.getElementById('fDays').value = c.termDays;
+      recomputeDueDate();
+      openModal('clientFormModal');
+    }
+
+    function openRenewModal(id) {
+      const c = state.clients.find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('formActionMode').value = 'renew';
+      document.getElementById('formTargetId').value = c.id;
+      document.getElementById('formModalTitle').textContent = `⚡ Renew: ${c.name}`;
+      document.getElementById('formSubmitBtn').textContent = 'Confirm Renewal';
+
+      document.getElementById('fName').value = c.name;
+      fillFormMainSelect(c.main);
+      document.getElementById('fType').value = c.loanType;
+      document.getElementById('fItem').value = c.item;
+      document.getElementById('fTotalLoan').value = c.totalLoan;
+      document.getElementById('fDailyTarget').value = c.dailyTarget;
+      document.getElementById('fStartDate').value = getTodayISO();
+      document.getElementById('fDays').value = c.termDays || 30;
+      recomputeDueDate();
+      openModal('clientFormModal');
+    }
+
+    function renewFromDetail() {
+      const id = state.detailClientId;
+      closeModal('clientDetailModal');
+      if (id) openRenewModal(id);
+    }
+
+    function editFromDetail() {
+      const id = state.detailClientId;
+      closeModal('clientDetailModal');
+      if (id) openEditModal(id);
+    }
+
+    function submitClientForm(e) {
+      e.preventDefault();
+      const mode = document.getElementById('formActionMode').value;
+      const id = document.getElementById('formTargetId').value;
+
+      const name = document.getElementById('fName').value.trim();
+      const main = document.getElementById('fMain').value;
+      const loanType = document.getElementById('fType').value;
+      const item = document.getElementById('fItem').value.trim() || 'Cash Loan';
+      const totalLoan = Math.max(1, Number(document.getElementById('fTotalLoan').value) || 0);
+      const dailyTarget = Math.max(1, Number(document.getElementById('fDailyTarget').value) || 0);
+      const startDate = document.getElementById('fStartDate').value || getTodayISO();
+      const termDays = Math.max(1, Number(document.getElementById('fDays').value) || 30);
+      const dueDate = addDaysUTC(startDate, termDays);
+
+      if (mode === 'add') {
+        state.clients.unshift({
+          id: 'c_' + Date.now(),
+          name, main, loanType, item, totalLoan, dailyTarget, startDate, termDays, dueDate,
+          history: [],
+          initialPaidOffset: 0
+        });
+        showToast(`Added ${name} (Due: ${dueDate})`, '✅');
+      } else if (mode === 'edit') {
+        const c = state.clients.find(x => x.id === id);
+        if (c) Object.assign(c, { name, main, loanType, item, totalLoan, dailyTarget, startDate, termDays, dueDate });
+        showToast(`Updated ${name}`, '✏️');
+      } else if (mode === 'renew') {
+        const c = state.clients.find(x => x.id === id);
+        if (c) Object.assign(c, { name, main, loanType, item, totalLoan, dailyTarget, startDate, termDays, dueDate, history: [], initialPaidOffset: 0 });
+        showToast(`Renewed ${name} (Due: ${dueDate})`, '⚡');
+      }
+
+      saveDatabase();
+      closeModal('clientFormModal');
+      renderAll();
+    }
+
+    function promptDeleteClient(id) {
+      const c = state.clients.find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('confirmTitle').textContent = 'Delete Client?';
+      document.getElementById('confirmMsg').textContent = `Delete "${c.name}" and all collection history?`;
+      document.getElementById('confirmOkBtn').onclick = () => {
+        state.clients = state.clients.filter(x => x.id !== id);
+        saveDatabase();
+        closeModal('confirmModal');
+        closeModal('clientDetailModal');
+        renderAll();
+        showToast(`Deleted ${c.name}`, '🗑️');
+      };
+      openModal('confirmModal');
+    }
+
+    function deleteDetailClient() {
+      if (state.detailClientId) promptDeleteClient(state.detailClientId);
+    }
+
+    // ------------------------------------------------------------------------
+    // 9. DRAWER REPORTS, SETTINGS, MAIN MANAGER & BULLETPROOF BACKUP + EMAIL
+    // ------------------------------------------------------------------------
+    function openSettingsModal() {
+      toggleDrawer(false);
+      openModal('settingsModal');
+    }
+
+    function openPastCollectionsModal() {
+      toggleDrawer(false);
+      const map = {};
+      state.clients.forEach(c => {
+        (c.history || []).forEach(h => {
+          if (!map[h.date]) map[h.date] = { date: h.date, sum: 0, paid: 0, abs: 0, notes: [] };
+          if (h.status === 'paid') {
+            map[h.date].sum += Number(h.amount) || 0;
+            map[h.date].paid++;
+            map[h.date].notes.push(`${c.name} (${fmtPesoExact(h.amount)})`);
+          } else {
+            map[h.date].abs++;
+          }
+        });
+      });
+
+      const list = Object.values(map).sort((a, b) => b.date.localeCompare(a.date));
+      const box = document.getElementById('pastCollectionsContent');
+      box.innerHTML = list.length === 0
+        ? `<p class="text-xs text-center py-6" style="color: var(--text-muted);">No collection logs recorded yet.</p>`
+        : list.map(d => `
+          <div class="tj-card-inner p-2.5 space-y-1">
+            <div class="flex justify-between text-xs font-bold">
+              <span style="color: #58a6ff;">📅 ${d.date}</span>
+              <span style="color: #3fb950;">${fmtPesoExact(d.sum)}</span>
+            </div>
+            <div class="text-[11px]" style="color: var(--text-muted);">✅ ${d.paid} Paid • ❌ ${d.abs} Absent</div>
+            ${d.notes.length ? `<div class="text-[10px] pt-1 border-t" style="border-color: var(--border-color); color: var(--text-muted);">${esc(d.notes.join(', '))}</div>` : ''}
+          </div>
+        `).join('');
+      openModal('pastCollectionsModal');
+    }
+
+    function openFinancialSummaryModal() {
+      toggleDrawer(false);
+      let deployed = 0, collected = 0, receivables = 0;
+      const byMain = {};
+      state.mains.forEach(m => byMain[m] = { active: 0, balance: 0, quota: 0 });
+
+      state.clients.forEach(c => {
+        const m = calcMetrics(c);
+        deployed += c.totalLoan;
+        collected += m.totalPaid;
+        receivables += m.balance;
+
+        if (!byMain[c.main]) byMain[c.main] = { active: 0, balance: 0, quota: 0 };
+        if (!m.isFinished) {
+          byMain[c.main].active++;
+          byMain[c.main].balance += m.balance;
+          byMain[c.main].quota += c.dailyTarget;
+        }
+      });
+
+      document.getElementById('financialSummaryContent').innerHTML = `
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="tj-card-inner p-2">
+            <div class="text-[10px]" style="color: var(--text-muted);">Deployed</div>
+            <div class="text-xs font-extrabold mt-0.5">${fmtPesoExact(deployed)}</div>
+          </div>
+          <div class="tj-card-inner p-2">
+            <div class="text-[10px]" style="color: var(--text-muted);">Collected</div>
+            <div class="text-xs font-extrabold mt-0.5" style="color: #3fb950;">${fmtPesoExact(collected)}</div>
+          </div>
+          <div class="tj-card-inner p-2">
+            <div class="text-[10px]" style="color: var(--text-muted);">Receivables</div>
+            <div class="text-xs font-extrabold mt-0.5" style="color: var(--accent-amber);">${fmtPesoExact(receivables)}</div>
+          </div>
+        </div>
+        <div class="space-y-1.5">
+          <div class="text-[10px] font-bold uppercase" style="color: var(--text-muted);">Breakdown by Main / Collector</div>
+          ${Object.entries(byMain).map(([k, v]) => `
+            <div class="tj-card-inner p-2.5 flex justify-between items-center text-xs">
+              <div>
+                <div class="font-bold" style="color: #58a6ff;">📍 ${esc(k)}</div>
+                <div class="text-[10px]" style="color: var(--text-muted);">${v.active} active • Quota: ${fmtPesoExact(v.quota)}/day</div>
+              </div>
+              <div class="text-right">
+                <div class="text-[10px]" style="color: var(--text-muted);">Balance</div>
+                <div class="font-extrabold" style="color: var(--accent-amber);">${fmtPesoExact(v.balance)}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      openModal('financialSummaryModal');
+    }
+
+    function openManageMainModal() {
+      toggleDrawer(false);
+      renderManageMainList();
+      openModal('manageMainModal');
+    }
+
+    function renderManageMainList() {
+      document.getElementById('manageMainList').innerHTML = state.mains.map((m, idx) => `
+        <div class="tj-card-inner p-2 flex items-center justify-between gap-2">
+          <span class="text-xs font-bold">📍 ${esc(m)}</span>
+          <div class="flex items-center gap-1">
+            <button onclick="renameMainGroup(${idx})" class="tj-btn tj-btn-pill px-2 py-0.5 text-[10px]">Rename</button>
+            ${state.mains.length > 1 ? `<button onclick="removeMainGroup(${idx})" class="tj-btn tj-btn-red px-2 py-0.5 text-[10px]">Del</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addMainGroup() {
+      const inp = document.getElementById('newMainInput');
+      const val = inp.value.trim();
+      if (!val) return;
+      if (state.mains.includes(val)) {
+        showToast('Main name already exists', '⚠️');
+        return;
+      }
+      state.mains.push(val);
+      inp.value = '';
+      saveDatabase();
+      renderManageMainList();
+      renderMainDropdown();
+      showToast(`Added "${val}"`, '🧭');
+    }
+
+    function renameMainGroup(idx) {
+      const oldName = state.mains[idx];
+      const inp = document.getElementById('newMainInput');
+      const newName = inp.value.trim();
+      if (!newName) {
+        inp.value = oldName;
+        inp.focus();
+        showToast('Edit name in box above & tap Rename again', '✏️');
+        return;
+      }
+      if (newName === oldName) return;
+      state.mains[idx] = newName;
+      state.clients.forEach(c => { if (c.main === oldName) c.main = newName; });
+      if (state.selectedMain === oldName) state.selectedMain = newName;
+      inp.value = '';
+      saveDatabase();
+      renderManageMainList();
+      renderAll();
+      showToast(`Renamed to "${newName}"`, '✅');
+    }
+
+    function removeMainGroup(idx) {
+      const removed = state.mains[idx];
+      const fallback = state.mains.find((_, i) => i !== idx) || 'first morn';
+      state.clients.forEach(c => { if (c.main === removed) c.main = fallback; });
+      state.mains.splice(idx, 1);
+      if (state.selectedMain === removed) state.selectedMain = 'ALL';
+      saveDatabase();
+      renderManageMainList();
+      renderAll();
+      showToast(`Removed "${removed}"`, '🗑️');
+    }
+
+    function buildBackupPayloadString() {
+      const grouped = {};
+      state.mains.forEach(m => grouped[m] = []);
+      state.clients.forEach(c => {
+        if (!grouped[c.main]) grouped[c.main] = [];
+        grouped[c.main].push(c);
+      });
+      return JSON.stringify({
+        version: '4.3',
+        exportedAt: new Date().toISOString(),
+        collectors: state.mains,
+        mains: state.mains,
+        data: grouped,
+        clients: state.clients
+      }, null, 2);
+    }
+
+    function exportJsonFile() {
+      const blob = new Blob([buildBackupPayloadString()], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `TechJunior_v4_3_Backup_${getTodayISO()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Exported JSON Database File!', '💾');
+    }
+
+    function copyJsonBackupCode() {
+      copyToClipboard(buildBackupPayloadString());
+      showToast('Copied JSON Backup Code!', '📋');
+    }
+
+    function openEmailBackupModal() {
+      toggleDrawer(false);
+      document.getElementById('emailBackupCodePreview').value = buildBackupPayloadString();
+      openModal('emailBackupModal');
+    }
+
+    function launchEmailWithBackupCode() {
+      const recipient = document.getElementById('backupEmailRecipient').value.trim();
+      const code = document.getElementById('emailBackupCodePreview').value;
+      const subject = encodeURIComponent(`Tech Junior v4.3 Backup (${getTodayISO()})`);
+      const body = encodeURIComponent(`Tech Junior Database Backup Code:\n\n${code}`);
+      window.location.href = `mailto:${encodeURIComponent(recipient)}?subject=${subject}&body=${body}`;
+      showToast('Opening Email App...', '📧');
+    }
+
+    function openPasteImportModal() {
+      toggleDrawer(false);
+      document.getElementById('pasteImportTextarea').value = '';
+      openModal('pasteImportModal');
+    }
+
+    function executePasteImport() {
+      const raw = document.getElementById('pasteImportTextarea').value;
+      if (!raw.trim()) return;
+      try {
+        parseAndRestoreJson(raw);
+        closeModal('pasteImportModal');
+      } catch (e) {
+        showToast('Invalid JSON: ' + e.message, '⚠️');
+      }
+    }
+
+    function restoreFromJsonFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          parseAndRestoreJson(ev.target.result);
+          toggleDrawer(false);
+        } catch (err) {
+          showToast('File error: ' + err.message, '⚠️');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /**
+     * Bulletproof JSON Parser:
+     * - Cleans invisible non-breaking spaces (\u00A0)
+     * - Auto-repairs truncated mobile pastes
+     * - Supports nested { collectors: [...], data: { "first morn": [...] } } and flat arrays
+     */
+    function parseAndRestoreJson(rawText) {
+      let clean = String(rawText)
+        .replace(/[\u00A0\u200B\uFEFF]/g, ' ')
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'")
+        .trim();
+
+      let obj = null;
+      try {
+        obj = JSON.parse(clean);
+      } catch (err) {
+        let fixed = clean.replace(/,\s*$/, '')
+          .replace(/,\s*"[^"]*"\s*:\s*[^}\]]*$/, '')
+          .replace(/,\s*"[^"]*$/, '');
+        const stack = [];
+        let inStr = false, escNext = false;
+        for (let i = 0; i < fixed.length; i++) {
+          const ch = fixed[i];
+          if (escNext) { escNext = false; continue; }
+          if (ch === '\\') { escNext = true; continue; }
+          if (ch === '"') { inStr = !inStr; continue; }
+          if (!inStr) {
+            if (ch === '{') stack.push('}');
+            else if (ch === '[') stack.push(']');
+            else if (ch === '}' || ch === ']') {
+              if (stack[stack.length - 1] === ch) stack.pop();
+            }
+          }
+        }
+        if (inStr) fixed += '"';
+        while (stack.length > 0) fixed += stack.pop();
+        obj = JSON.parse(fixed);
+      }
+
+      const importedClients = [];
+      const importedMains = new Set();
+
+      if (obj && obj.data && typeof obj.data === 'object' && !Array.isArray(obj.data)) {
+        if (Array.isArray(obj.collectors)) obj.collectors.forEach(c => importedMains.add(String(c)));
+        Object.entries(obj.data).forEach(([k, arr]) => {
+          importedMains.add(String(k));
+          if (Array.isArray(arr)) arr.forEach(item => importedClients.push(normalizeClient(item, k)));
+        });
+      } else if (obj && Array.isArray(obj.clients)) {
+        if (Array.isArray(obj.mains)) obj.mains.forEach(m => importedMains.add(String(m)));
+        if (Array.isArray(obj.routes)) obj.routes.forEach(r => importedMains.add(String(r)));
+        obj.clients.forEach(item => {
+          const norm = normalizeClient(item, item.main || item.route || 'first morn');
+          importedMains.add(norm.main);
+          importedClients.push(norm);
+        });
+      } else if (Array.isArray(obj)) {
+        obj.forEach(item => {
+          const norm = normalizeClient(item, item.main || item.route || 'first morn');
+          importedMains.add(norm.main);
+          importedClients.push(norm);
+        });
+      } else {
+        throw new Error('Unsupported JSON structure');
+      }
+
+      if (importedClients.length === 0) throw new Error('No clients found in backup');
+
+      state.clients = importedClients;
+      state.mains = importedMains.size ? Array.from(importedMains) : ['first morn'];
+      state.selectedMain = 'ALL';
+      saveDatabase();
+      renderAll();
+      showToast(`Imported ${importedClients.length} clients!`, '✅');
+    }
+
+    // ------------------------------------------------------------------------
+    // 10. UI CONTROLS & HELPERS
+    // ------------------------------------------------------------------------
+    function toggleDrawer(open) {
+      const bd = document.getElementById('drawerBackdrop');
+      const dr = document.getElementById('controlDrawer');
+      if (open) {
+        bd.classList.remove('hidden');
+        requestAnimationFrame(() => dr.classList.remove('-translate-x-full'));
+      } else {
+        dr.classList.add('-translate-x-full');
+        setTimeout(() => bd.classList.add('hidden'), 200);
+      }
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function togglePrivacyMode() {
+      state.privacy = !state.privacy;
+      document.getElementById('privacyIcon').textContent = state.privacy ? '🙈' : '👁️';
+      document.getElementById('privacyText').textContent = state.privacy ? 'Hidden' : 'Privacy';
+      renderOverviewKPIs();
+      renderClientCards();
+    }
+
+    function onMainSelectChange(val) {
+      state.selectedMain = val;
+      renderOverviewKPIs();
+      renderClientCards();
+    }
+
+    function switchTab(tab) {
+      state.activeTab = tab;
+      const aBtn = document.getElementById('tabActive');
+      const fBtn = document.getElementById('tabFinished');
+      if (tab === 'active') {
+        aBtn.className = 'tj-btn tj-btn-blue py-1.5 text-xs font-bold';
+        aBtn.style.color = '#ffffff';
+        fBtn.className = 'tj-btn py-1.5 text-xs font-semibold';
+        fBtn.style.color = 'var(--text-muted)';
+      } else {
+        fBtn.className = 'tj-btn tj-btn-blue py-1.5 text-xs font-bold';
+        fBtn.style.color = '#ffffff';
+        aBtn.className = 'tj-btn py-1.5 text-xs font-semibold';
+        aBtn.style.color = 'var(--text-muted)';
+      }
+      renderClientCards();
+    }
+
+    function setFilterChip(chip) {
+      state.activeChip = chip;
+      document.querySelectorAll('.filter-chip').forEach(b => {
+        const active = b.dataset.chip === chip;
+        b.className = active
+          ? 'filter-chip tj-btn tj-btn-blue px-2.5 py-1 text-[11px] shrink-0'
+          : 'filter-chip tj-btn tj-btn-pill px-2.5 py-1 text-[11px] shrink-0';
+      });
+      renderClientCards();
+    }
+
+    function shortcutHighRisk() {
+      toggleDrawer(false);
+      switchTab('active');
+      setFilterChip('highrisk');
+    }
+
+    function clearSearchBox() {
+      document.getElementById('searchBox').value = '';
+      renderClientCards();
+    }
+
+    function copyToClipboard(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    let toastTimer = null;
+    function showToast(msg, icon = '✅') {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastText').textContent = msg;
+      document.getElementById('toastIcon').textContent = icon;
+      box.classList.remove('hidden');
+      box.classList.add('flex');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add('hidden');
+        box.classList.remove('flex');
+      }, 2400);
+    }
+
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
