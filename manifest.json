@@ -1,0 +1,16 @@
+{
+  "name": "Tech Junior v4.3",
+  "short_name": "Tech Junior",
+  "start_url": "/tech-junior014/",
+  "scope": "/tech-junior014/",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    {
+      "src": "https://flaticon.com",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
